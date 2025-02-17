@@ -26,7 +26,7 @@ This component can be easily added as an [external component](https://esphome.io
 
 ```yaml
 external_components:
-  - source: https://github.com/jfbuggen/esphome/
+  - source: github://jfbuggen/esphome/
 
 i2c:
   frequency: 10kHz    # low frequency to limit heating
