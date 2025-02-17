@@ -5,7 +5,7 @@ This repository adds support for AHT21 devices to [ESPHome](https://esphome.io).
 ## Why not use the standard AHT10 component from ESPHome?
 
 As part of the ESPHome platform, the [AHT10 component](https://esphome.io/components/sensor/aht10.html) is said to be compatible with AHT20. A "variant" can be configured for this.
-However, even if the code seems to work as well for AHT21 (setting "variant" to AHT20), I realised that the sample code provided by the manufacturer differs, notably in the initalisation sequence.
+However, even if the code seems to work as well for AHT21 (setting "variant" to AHT20), I realised that the sample code provided by the manufacturer [(link to .rar file)](http://aosong.com/userfiles/files/software/AHT20-21%20DEMO%20V1_3(1).rar) differs, notably in the initalisation sequence.
 I thought I would adapt the AHT10 code to add a AHT21 variant.
 
 But then I also realised that the device is heating rapidly, which corrupts the temperature measure. 
