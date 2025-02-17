@@ -15,11 +15,10 @@ Adapting the existing component was not easy, because AHT21 requires at least 50
 This is not ok for a polling component, it would take too long as part of the "update".
 
 This new component behaves differently:
-- A state machine splits the processing in small bits, ensuring that the component does not hold control for too long
+- A state machine splits the processing in small bits, ensuring that the component does not hold control for too long, even if the full process chain takes typically 720ms (!)
 - At regular intervals, the AHT21 is powered up, initialised, and a reading is made, then put back to sleep
 
-I have to say that I'm still moderately satisfied with the result. The code works fine, but the AHT21 remains very sensitive to temperature, making it not possible to put in a printed case.
-I'll probably turn to other sensors, so there is little chance that I implement soon the items under "to do".
+I have to say that I'm still moderately satisfied with the result. The code works fine, but despite scan intervals of 5 minutes (started initially with 1 minute), the AHT21 remains very sensitive to temperature if it is put in a printed case. I'll probably turn to other sensors (bme280?), so there is little chance that I implement soon the items under "to do".
 
 ## Configuration
 
@@ -27,7 +26,7 @@ This component can be easily added as an [external component](https://esphome.io
 
 ```yaml
 external_components:
-  - source: github://mampfes/esphome_obis_d0
+  - source: https://github.com/jfbuggen/esphome/
 
 i2c:
   frequency: 10kHz    # low frequency to limit heating
