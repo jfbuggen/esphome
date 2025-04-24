@@ -1,5 +1,8 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
+import hashlib
+import io
+import logging
 
 from esphome import external_files
 from esphome.components import sensor
