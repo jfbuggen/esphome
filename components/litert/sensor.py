@@ -1,34 +1,73 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
+
+from esphome import external_files
 from esphome.components import sensor
+from pathlib import Path
 
 from esphome.const import (
     CONF_ID,
     CONF_FILE,
     CONF_PATH,
+    CONF_RAW_DATA_ID,
     CONF_SOURCE,
+    CONF_TYPE,
     CONF_URL,
 )
+from esphome.core import CORE, HexInt
 
 litert_ns = cg.esphome_ns.namespace("litert")
 LiteRTComponent = litert_ns.class_("LiteRTComponent", cg.Component)
 
-FILE_DOWNLOAD_TIMEOUT = 30  # seconds
+_LOGGER = logging.getLogger(__name__)
+DOMAIN = "litert"
+
 SOURCE_LOCAL = "local"
 SOURCE_WEB = "web"
+FILE_DOWNLOAD_TIMEOUT = 30 # seconds
 
+# For online resources, compute a local path where it will be stored
+def compute_local_path(value) -> Path:
+    url = value[CONF_URL] if isinstance(value, dict) else value
+    h = hashlib.new("sha256")
+    h.update(url.encode())
+    key = h.hexdigest()[:8]
+    base_dir = external_files.compute_local_file_dir(DOMAIN)
+    return base_dir / key
+
+# Download the online resource to the local path
+def download_file(url, path):
+    external_files.download_content(url, path, FILE_DOWNLOAD_TIMEOUT)
+    return str(path)
+    
+# Download the online resource
+def download_model(value):
+    value = value[CONF_URL] if isinstance(value, dict) else value
+    return download_file(value, compute_local_path(value))
+
+# For local resources, validate the full path
 def local_path(value):
     value = value[CONF_PATH] if isinstance(value, dict) else value
     return str(CORE.relative_config_path(value))
 
+# Accept only files with .tflite extension
+def validate_model_file(value):
+    if not value.lower().endswith(".tflite"):
+        raise cv.Invalid(f"Only .tflite files are supported.")
+    return CORE.relative_config_path(cv.file_(value))
 
-def download_file(url, path):
-    external_files.download_content(url, path, FILE_DOWNLOAD_TIMEOUT)
-    return str(path)
+# When file type is not specified, detect it
+def validate_file_shorthand(value):
+    value = cv.string_strict(value)
+    if value.startswith("http://") or value.startswith("https://"):
+        return download_model(value)
+
+    value = cv.file_(value)
+    return local_path(value)
 
 LOCAL_SCHEMA = cv.All(
     {
-        cv.Required(CONF_PATH): cv.file_,
+        cv.Required(CONF_PATH): validate_model_file,
     },
     local_path,
 )
@@ -37,7 +76,7 @@ WEB_SCHEMA = cv.All(
     {
         cv.Required(CONF_URL): cv.string,
     },
-    download_image,
+    download_model,
 )
 
 TYPED_FILE_SCHEMA = cv.typed_schema(
@@ -48,15 +87,28 @@ TYPED_FILE_SCHEMA = cv.typed_schema(
     key=CONF_SOURCE,
 )
 
-
 CONFIG_SCHEMA = (
     cv.Schema(
         {
             cv.GenerateID(): cv.declare_id(LiteRTComponent),
+            cv.Required(CONF_FILE): cv.Any(validate_file_shorthand, TYPED_FILE_SCHEMA),
+            cv.GenerateID(CONF_RAW_DATA_ID): cv.declare_id(cg.uint8),
         }
     )
 )
 
+async def write_model(config):
+    path = Path(config[CONF_FILE])
+    if not path.is_file():
+        raise core.EsphomeError(f"Could not load model file {path}")
+
+    data = path.read_bytes()
+    rhs = [HexInt(x) for x in data]
+    prog_arr = cg.progmem_array(config[CONF_RAW_DATA_ID], rhs)
+    return prog_arr
+
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_component(var, config)
+    prog_arr = await write_model(config)
+    cg.new_Pvariable(config[CONF_RAW_DATA_ID], prog_arr)
