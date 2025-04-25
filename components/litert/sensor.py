@@ -4,7 +4,7 @@ import hashlib
 import io
 import logging
 
-from esphome import external_files
+from esphome import core, external_files
 from esphome.components import sensor
 from pathlib import Path
 
