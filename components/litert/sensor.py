@@ -148,5 +148,7 @@ async def to_code(config):
         repository="https://github.com/espressif/esp-tflite-micro.git",
         version=None,
     )
+    # Need to point explicitly to the flatbuffer header files
+    cg.add_build_flag("-Ithird_party/flatbuffers/include")
     # Set deeper ldf mode to ensure the compiler finds the right header files accross component code and library code
     cg.add_platformio_option("lib_ldf_mode", "chain+")
