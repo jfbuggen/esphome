@@ -126,7 +126,7 @@ async def to_code(config):
     await cg.register_component(var, config)
 #    await register_model(config)
     try:
-        with open(path, mode="rb) as md_file:
+        with open(path, mode="rb") as md_file:
             content = md_file.read()
             content_size = len(content)
     except Exception as e:
