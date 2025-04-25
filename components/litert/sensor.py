@@ -105,10 +105,21 @@ async def register_model(config):
     if not path.is_file():
         raise core.EsphomeError(f"Could not load model file {path}")
 
-    data = path.read_bytes()
-    rhs = [HexInt(x) for x in data]
-    prog_arr = cg.progmem_array(config[CONF_RAW_DATA_ID], rhs)
-    cg.add(var.add_model(prog_arr, len(rhs)))
+    with open(file=path, encoding="utf-8") as md_file:
+        content = md_file.read()
+        content_size = len(content)
+        bytes_as_int = ", ".join(str(x) for x in content)
+        uint8_t = f"const uint8_t LITERT_MODEL[{content_size}] PROGMEM = {{{bytes_as_int}}}"
+        size_t = (
+            f"const size_t LITERT_MODEL_SIZE = {content_size}"
+        )
+        cg.add_global(cg.RawExpression(uint8_t))
+        cg.add_global(cg.RawExpression(size_t))      
+    
+#    data = path.read_bytes()
+#    rhs = [HexInt(x) for x in data]
+#    prog_arr = cg.progmem_array(config[CONF_RAW_DATA_ID], rhs)
+#    cg.add(var.add_model(prog_arr, len(rhs)))
 
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
