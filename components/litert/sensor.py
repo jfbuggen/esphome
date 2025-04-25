@@ -149,6 +149,6 @@ async def to_code(config):
         version=None,
     )
     # Need to point explicitly to the flatbuffer header files
-    cg.add_build_flag("-Iesp-tflite-micro/third_party/flatbuffers/include")
+    cg.add_build_flag("-I../../../esp-tflite-micro/third_party/flatbuffers/include")
     # Set deeper ldf mode to ensure the compiler finds the right header files accross component code and library code
     cg.add_platformio_option("lib_ldf_mode", "chain+")
