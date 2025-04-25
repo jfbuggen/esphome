@@ -115,7 +115,8 @@ async def register_model(config):
         )
         cg.add_global(cg.RawExpression(uint8_t))
         cg.add_global(cg.RawExpression(size_t))      
-    
+        cg.add(var.set_model(LITERT_MODEL))
+        
 #    data = path.read_bytes()
 #    rhs = [HexInt(x) for x in data]
 #    prog_arr = cg.progmem_array(config[CONF_RAW_DATA_ID], rhs)
