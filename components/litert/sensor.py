@@ -150,7 +150,8 @@ async def to_code(config):
     )
     # Need to point explicitly to the flatbuffer header files
     cg.add_build_flag("-v")
-    cg.add_build_flag('-I"${platformio.globallib_dir}/third_party/flatbuffers/include"')
+    cg.add_build_flag('-I"${platformio.workspace_dir}/third_party/flatbuffers/include"')
+    cg.add_build_flag('-I"${platformio.libdeps_dir}/third_party/flatbuffers/include"')
     cg.add_build_flag("-I.piolibdeps/test-litert/TensorFlow/third_party/gemmlowp")
     # Set deeper ldf mode to ensure the compiler finds the right header files accross component code and library code
     cg.add_platformio_option("lib_ldf_mode", "chain+")
