@@ -124,6 +124,17 @@ async def register_model(config):
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_component(var, config)
-    await register_model(config)
-    cg.add(var.set_model(LITERT_MODEL))
+#    await register_model(config)
+    try:
+        with open(path, mode="rb) as md_file:
+            content = md_file.read()
+            content_size = len(content)
+    except Exception as e:
+        raise core.EsphomeError(f"Could not open binary model file {path}: {e}")
+
+    # Convert model file to an array of ints
+    rhs = [int(x) for x in content]
+    # Create an array which will reside in program memory and configure the sensor instance to use it
+    model_arr = cg.progmem_array(config[CONF_RAW_DATA_ID], rhs)
+    cg.add(var.set_model(model_arr, len(rhs))
 
