@@ -115,7 +115,6 @@ async def register_model(config):
         )
         cg.add_global(cg.RawExpression(uint8_t))
         cg.add_global(cg.RawExpression(size_t))      
-        cg.add(var.set_model(LITERT_MODEL))
         
 #    data = path.read_bytes()
 #    rhs = [HexInt(x) for x in data]
@@ -126,4 +125,5 @@ async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_component(var, config)
     await register_model(config)
+    cg.add(var.set_model(LITERT_MODEL))
 
