@@ -17,7 +17,7 @@ class LiteRTComponent : public Component {
   }
 
  protected:
-  uint8_t* const model_{nullptr};
+  uint8_t const *model_{nullptr};
   uint32_t model_length_{0}; 
 
 };
