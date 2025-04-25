@@ -141,3 +141,12 @@ async def to_code(config):
     cg.add(var.set_model(model_arr, len(rhs)))
 
     await cg.register_component(var, config)
+
+    # Add Expressif's Tensorflow Lite for ESP32 library
+    cg.add_library(
+        name="TensorFlow",
+        repository="https://github.com/espressif/esp-tflite-micro.git",
+        version=None,
+    )
+    # Set deeper ldf mode to ensure the compiler finds the right header files accross component code and library code
+    cg.add_platformio_option("lib_ldf_mode", "chain+")
