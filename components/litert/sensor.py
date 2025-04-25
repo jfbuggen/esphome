@@ -125,6 +125,11 @@ async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_component(var, config)
 #    await register_model(config)
+    
+    # Retrieve model file
+    path = Path(config[CONF_FILE])
+    if not path.is_file():
+        raise core.EsphomeError(f"Could not load model file {path}")
     try:
         with open(path, mode="rb") as md_file:
             content = md_file.read()
