@@ -11,10 +11,15 @@ class LiteRTComponent : public Component {
   void loop() override;
   void dump_config() override;
   float get_setup_priority() const override;
-  void set_model (const uint8_t* model) { this->model_ = model; }
+  void set_model (const uint8_t* model, const uint32_t len) {
+    this->model_ = model;
+    this->model_length_ = len;
+  }
 
  protected:
-  uint8_t* model_{};
+  uint8_t* const model_{nullptr};
+  uint32_t model_length_{0}; 
+
 };
 
 }  // namespace litert
