@@ -100,7 +100,7 @@ CONFIG_SCHEMA = (
     )
 )
 
-async def write_model(config):
+async def register_model(config):
     path = Path(config[CONF_FILE])
     if not path.is_file():
         raise core.EsphomeError(f"Could not load model file {path}")
@@ -108,10 +108,10 @@ async def write_model(config):
     data = path.read_bytes()
     rhs = [HexInt(x) for x in data]
     prog_arr = cg.progmem_array(config[CONF_RAW_DATA_ID], rhs)
-    return prog_arr
+    cg.add(var.add_model(prog_arr, len(rhs)))
 
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_component(var, config)
-    prog_arr = await write_model(config)
-    cg.new_Pvariable(config[CONF_RAW_DATA_ID], prog_arr)
+    await register_model(config)
+
