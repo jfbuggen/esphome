@@ -108,7 +108,7 @@ async def register_model(config):
     with open(file=path, encoding="utf-8") as md_file:
         content = md_file.read()
         content_size = len(content)
-        bytes_as_int = ", ".join(hex(x) for x in content)
+        bytes_as_int = ", ".join(hex(int(x)) for x in content)
         uint8_t = f"const uint8_t LITERT_MODEL[{content_size}] PROGMEM = {{{bytes_as_int}}}"
         size_t = (
             f"const size_t LITERT_MODEL_SIZE = {content_size}"
