@@ -58,8 +58,8 @@ void LiteRTComponent::setup() {
   }
 
   // Obtain pointers to the model's input and output tensors.
-  this->input_ = interpreter->input(0);
-  this->output_ = interpreter->output(0);
+  this->input_ = this->interpreter_->input(0);
+  this->output_ = this->interpreter_->output(0);
 
   // Keep track of how many inferences we have performed.
   this->inference_count_ = 0;
