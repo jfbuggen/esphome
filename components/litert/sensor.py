@@ -138,7 +138,7 @@ async def to_code(config):
     rhs = [int(x) for x in content]
     # Create an array which will reside in program memory and configure the sensor instance to use it
     model_arr = cg.progmem_array(config[CONF_RAW_DATA_ID], rhs)
-    cg.add(var.set_model(model_arr, len(rhs)))
+    cg.add(var.set_model_data(model_arr, len(rhs)))
 
     await cg.register_component(var, config)
 
