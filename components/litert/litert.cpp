@@ -100,7 +100,7 @@ void LiteRTComponent::loop() {
   // Output the results. A custom HandleOutput function can be implemented
   // for each supported hardware target.
   //HandleOutput(x, y);
-  ESP_LOGD(TAG, "Inference result: input %.6f, Output %.6f, x, y);
+  ESP_LOGD(TAG, "Inference result: input %.6f, Output %.6f", x, y);
   
   // Increment the inference_counter, and reset it if we have reached
   // the total number per cycle
