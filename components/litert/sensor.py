@@ -145,7 +145,7 @@ async def to_code(config):
     # Add Expressif's Tensorflow Lite for ESP32 library
     cg.add_library(
         name="TensorFlow",
-        repository="https://github.com/espressif/esp-tflite-micro.git",
+        repository="https://github.com/jfbuggen/esp-tflite-micro.git",
         version=None,
     )
     # Need to point explicitly to the flatbuffer header files
