@@ -9,6 +9,11 @@
 namespace {
 constexpr int kTensorArenaSize = 2000;
 uint8_t tensor_arena[kTensorArenaSize];
+
+// Constants for example
+const float kXrange = 2.f * 3.14159265359f;
+const int kInferencesPerCycle = 20;
+
 }  // namespace
 
 namespace esphome {
@@ -66,7 +71,41 @@ void LiteRTComponent::setup() {
 }
 
 void LiteRTComponent::loop() {
+  // Calculate an x value to feed into the model. We compare the current
+  // inference_count to the number of inferences per cycle to determine
+  // our position within the range of possible x values the model was
+  // trained on, and use this to calculate a value.
+  float position = static_cast<float>(this->inference_count_) /
+                   static_cast<float>(kInferencesPerCycle);
+  float x = position * kXrange;
 
+  // Quantize the input from floating-point to integer
+  int8_t x_quantized = x / this->input_->params.scale + this->input_->params.zero_point;
+  // Place the quantized input in the model's input tensor
+  this->input_->data.int8[0] = x_quantized;
+
+  // Run inference, and report any error
+  TfLiteStatus invoke_status = this->interpreter_->Invoke();
+  if (invoke_status != kTfLiteOk) {
+    ESP_LOGE(TAG, "Invoke failed on x: %f\n",
+                         static_cast<double>(x));
+    return;
+  }
+
+  // Obtain the quantized output from model's output tensor
+  int8_t y_quantized = this->output_->data.int8[0];
+  // Dequantize the output from integer to floating-point
+  float y = (y_quantized - this->output_->params.zero_point) * this->output_->params.scale;
+
+  // Output the results. A custom HandleOutput function can be implemented
+  // for each supported hardware target.
+  //HandleOutput(x, y);
+  ESP_LOGD(TAG, "Inference result: input %.6f, Output %.6f, x, y);
+  
+  // Increment the inference_counter, and reset it if we have reached
+  // the total number per cycle
+  this->inference_count_ += 1;
+  if (this->inference_count_ >= kInferencesPerCycle) this->inference_count_ = 0;
 }
 
 float LiteRTComponent::get_setup_priority() const { return setup_priority::DATA; }
