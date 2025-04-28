@@ -22,6 +22,10 @@ from esphome.core import CORE, HexInt
 litert_ns = cg.esphome_ns.namespace("litert")
 LiteRTComponent = litert_ns.class_("LiteRTComponent", cg.Component)
 
+tflite_ns = cg.namespace("tflite")
+MicroMutableOpResolverTemplate = tflite_ns.template('MicroMutableOpResolver', cg.uint32)
+CONF_OF_COUNT = 4
+
 _LOGGER = logging.getLogger(__name__)
 DOMAIN = "litert"
 
@@ -142,6 +146,10 @@ async def to_code(config):
 
     await cg.register_component(var, config)
 
+    opcount = CONF_OP_COUNT
+    resolver = MicroMutableOpResolverTemplate.new(op_count)
+    cg.add(var.set_op_resolver(resolver)
+           
     # Add Expressif's Tensorflow Lite for ESP32 library
     cg.add_library(
         name="TensorFlow",
