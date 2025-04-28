@@ -16,6 +16,7 @@ class LiteRTComponent : public Component {
     this->model_data_ = model_data;
     this->model_data_length_ = len;
   }
+  void set_op_resolver (const MicroOpResolver& op_resolver) { this->op_resolver_ = op_resolver };
 
  protected:
   uint8_t const *model_data_{nullptr};
@@ -25,6 +26,7 @@ class LiteRTComponent : public Component {
   TfLiteTensor* input_{nullptr};
   TfLiteTensor* output_{nullptr};
   int inference_count_{0};
+  const tflite::MicroOpResolver& op_resolver_; // op resolver is instanciated elsewhere
 };
 
 }  // namespace litert
