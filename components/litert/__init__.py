@@ -24,7 +24,7 @@ LiteRTComponent = litert_ns.class_("LiteRTComponent", cg.Component)
 
 tflite_ns = cg.global_ns.namespace("tflite")
 MicroMutableOpResolverTemplate = tflite_ns.template('MicroMutableOpResolver', cg.uint32)
-CONF_OF_COUNT = 4
+CONF_OP_COUNT = 4
 CONF_OP_ID = "tflite_op_res"
 
 _LOGGER = logging.getLogger(__name__)
