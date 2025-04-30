@@ -23,7 +23,7 @@ litert_ns = cg.esphome_ns.namespace("litert")
 LiteRTComponent = litert_ns.class_("LiteRTComponent", cg.Component)
 
 tflite_ns = cg.global_ns.namespace("tflite")
-MicroMutableOpResolverTemplate = tflite_ns.template('MicroMutableOpResolver', cg.uint32)
+MicroMutableOpResolverTemplate = tflite_ns.template(cg.uint32).class_('MicroMutableOpResolver')
 CONF_OP_COUNT = 4
 CONF_OP_ID = "tflite_op_res"
 
@@ -149,7 +149,8 @@ async def to_code(config):
     await cg.register_component(var, config)
 
     opcount = CONF_OP_COUNT
-    resolver = MicroMutableOpResolverTemplate.new(op_count)
+    resolver = MicroMutableOpResolverTemplate.template(cg.uint32(opcount))
+    cg.new_Pvariable(CONF_OP_ID, resolver)
     cg.add(var.set_op_resolver(resolver))
            
     # Add Expressif's Tensorflow Lite for ESP32 library
