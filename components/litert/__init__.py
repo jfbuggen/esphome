@@ -150,8 +150,8 @@ async def to_code(config):
 
     opcount = CONF_OP_COUNT
     resolver = MicroMutableOpResolverTemplate.template(cg.uint32(opcount))
-    cg.new_Pvariable(CONF_OP_ID, resolver)
-    cg.add(var.set_op_resolver(resolver))
+    res = cg.new_Pvariable(CONF_OP_ID, resolver)
+    cg.add(var.set_op_resolver(res))
            
     # Add Expressif's Tensorflow Lite for ESP32 library
     cg.add_library(
