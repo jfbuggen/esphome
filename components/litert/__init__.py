@@ -25,6 +25,7 @@ LiteRTComponent = litert_ns.class_("LiteRTComponent", cg.Component)
 tflite_ns = cg.namespace("tflite")
 MicroMutableOpResolverTemplate = tflite_ns.template('MicroMutableOpResolver', cg.uint32)
 CONF_OF_COUNT = 4
+CONF_OP_ID = "tflite_op_res"
 
 _LOGGER = logging.getLogger(__name__)
 DOMAIN = "litert"
@@ -100,6 +101,7 @@ CONFIG_SCHEMA = (
             cv.GenerateID(): cv.declare_id(LiteRTComponent),
             cv.Required(CONF_FILE): cv.Any(validate_file_shorthand, TYPED_FILE_SCHEMA),
             cv.GenerateID(CONF_RAW_DATA_ID): cv.declare_id(cg.uint8),
+            cv.GenerateID(): cv.devlare_id(MicroMutableOpResolverTemplate, CONF_OP_COUNT),
         }
     )
 )
