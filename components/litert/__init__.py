@@ -26,7 +26,7 @@ tflite_ns = cg.global_ns.namespace("tflite")
 #MicroMutableOpResolverTemplate = tflite_ns.template(cg.uint32).class_('MicroMutableOpResolver')
 MicroOpResolver = tflite_ns.class_('MicroOpResolver')
 #MicroMutableOpResolverTemplate = tflite_ns.class_('MicroMutableOpResolver', MicroOpResolver)
-MicroMutableOpResolverTemplate = tflite_ns.class_('MicroMutableOpResolver')
+MicroMutableOpResolver = tflite_ns.class_('MicroMutableOpResolver')
 CONF_OP_COUNT = 4
 CONF_OP_ID = "tflite_op_res"
 
@@ -104,7 +104,7 @@ CONFIG_SCHEMA = (
             cv.GenerateID(): cv.declare_id(LiteRTComponent),
             cv.Required(CONF_FILE): cv.Any(validate_file_shorthand, TYPED_FILE_SCHEMA),
             cv.GenerateID(CONF_RAW_DATA_ID): cv.declare_id(cg.uint8),
-            cv.GenerateID(CONF_OP_ID): cv.declare_id(MicroMutableOpResolverTemplate),
+            cv.GenerateID(CONF_OP_ID): cv.declare_id(MicroMutableOpResolver),
         }
     )
 )
@@ -133,9 +133,9 @@ async def register_model(config):
 async def to_code(config):
 
     opcount = CONF_OP_COUNT
-    resolver = MicroMutableOpResolverTemplate.template(opcount)
-    #rhs = resolver.new()
-    res = cg.new_Pvariable(config[CONF_OP_ID], resolver)
+    resolver = MicroMutableOpResolver.template(opcount)
+    rhs = resolver.new()
+    #res = cg.new_Pvariable(config[CONF_OP_ID], resolver)
     #cg.add(var.set_op_resolver(res))
 
     var = cg.new_Pvariable(config[CONF_ID], res)
