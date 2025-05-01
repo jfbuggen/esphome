@@ -132,9 +132,9 @@ async def to_code(config):
 
     opcount = CONF_OP_COUNT
     resolver = MicroMutableOpResolver.template(opcount)
-    res = resolver.new()
+#    res = resolver.new()
 #    rhs = cg.Pvariable(config[CONF_OP_ID], res, MicroOpResolver)
-    rhs = cg.new_variable(config[CONF_OP_ID], res, MicroOpResolver)
+    rhs = cg.new_variable(config[CONF_OP_ID], resolver, MicroOpResolver)
     #cg.add(var.set_op_resolver(res))
 
     var = cg.new_Pvariable(config[CONF_ID], rhs)
