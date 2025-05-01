@@ -8,7 +8,7 @@ namespace litert {
 
 class LiteRTComponent : public Component {
  public:
-  void LiteRTComponent(tflite::MicroOpResolver& op_resolver) { this->op_resolver_ = op_resolver; }
+  LiteRTComponent(tflite::MicroOpResolver& op_resolver) { this->op_resolver_ = op_resolver; }
   void setup() override;
   void loop() override;
   void dump_config() override;
