@@ -130,7 +130,14 @@ async def register_model(config):
 #    cg.add_global(var.add_model(prog_arr, len(rhs)))
 
 async def to_code(config):
-    var = cg.new_Pvariable(config[CONF_ID])
+
+    opcount = CONF_OP_COUNT
+    resolver = MicroMutableOpResolverTemplate.template(cg.uint32(opcount))
+    rhs = resolver.new()
+    res = cg.new_Pvariable(config[CONF_OP_ID], res, rhs)
+    #cg.add(var.set_op_resolver(res))
+
+    var = cg.new_Pvariable(config[CONF_ID], res)
     
     # Retrieve model file
     path = Path(config[CONF_FILE])
@@ -150,11 +157,6 @@ async def to_code(config):
 
     await cg.register_component(var, config)
 
-    opcount = CONF_OP_COUNT
-    resolver = MicroMutableOpResolverTemplate.template(cg.uint32(opcount))
-    rhs = resolver.new()
-    res = cg.new_Pvariable(config[CONF_OP_ID], rhs)
-    cg.add(var.set_op_resolver(res))
            
     # Add Expressif's Tensorflow Lite for ESP32 library
     cg.add_library(
