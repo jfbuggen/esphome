@@ -134,10 +134,10 @@ async def to_code(config):
     resolver = MicroMutableOpResolver.template(opcount)
 #    res = resolver.new()
 #    rhs = cg.Pvariable(config[CONF_OP_ID], res, MicroOpResolver)
-    rhs = cg.new_variable(config[CONF_OP_ID], resolver, MicroOpResolver)
+    cg.new_variable(CONF_OP_ID, resolver, MicroOpResolver)
     #cg.add(var.set_op_resolver(res))
 
-    var = cg.new_Pvariable(config[CONF_ID], rhs)
+    var = cg.new_Pvariable(config[CONF_ID], resolver)
     
     # Retrieve model file
     path = Path(config[CONF_FILE])
