@@ -23,7 +23,6 @@ litert_ns = cg.esphome_ns.namespace("litert")
 LiteRTComponent = litert_ns.class_("LiteRTComponent", cg.Component)
 
 tflite_ns = cg.global_ns.namespace("tflite")
-#MicroMutableOpResolverTemplate = tflite_ns.template(cg.uint32).class_('MicroMutableOpResolver')
 MicroOpResolver = tflite_ns.class_('MicroOpResolver')
 #MicroMutableOpResolverTemplate = tflite_ns.class_('MicroMutableOpResolver', MicroOpResolver)
 MicroMutableOpResolver = tflite_ns.class_('MicroMutableOpResolver')
@@ -134,8 +133,8 @@ async def to_code(config):
 
     opcount = CONF_OP_COUNT
     resolver = MicroMutableOpResolver.template(opcount)
-    rhs = resolver.new()
-    #res = cg.new_Pvariable(config[CONF_OP_ID], resolver)
+    #rhs = resolver.new()
+    rhs = cg.new_Pvariable(config[CONF_OP_ID], resolver)
     #cg.add(var.set_op_resolver(res))
 
     var = cg.new_Pvariable(config[CONF_ID], rhs)
