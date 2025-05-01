@@ -5,6 +5,7 @@ import io
 import logging
 
 from esphome import core, external_files
+from esphome.cpp_generator import VariableDeclarationExpression, add
 from esphome.components import sensor
 from pathlib import Path
 
