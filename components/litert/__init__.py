@@ -138,7 +138,7 @@ async def to_code(config):
     #res = cg.new_Pvariable(config[CONF_OP_ID], resolver)
     #cg.add(var.set_op_resolver(res))
 
-    var = cg.new_Pvariable(config[CONF_ID], res)
+    var = cg.new_Pvariable(config[CONF_ID], rhs)
     
     # Retrieve model file
     path = Path(config[CONF_FILE])
