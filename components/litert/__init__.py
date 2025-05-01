@@ -104,7 +104,7 @@ CONFIG_SCHEMA = (
             cv.GenerateID(): cv.declare_id(LiteRTComponent),
             cv.Required(CONF_FILE): cv.Any(validate_file_shorthand, TYPED_FILE_SCHEMA),
             cv.GenerateID(CONF_RAW_DATA_ID): cv.declare_id(cg.uint8),
-            cv.GenerateID(CONF_OP_ID): cv.declare_id(MicroOpResolver),
+            cv.GenerateID(CONF_OP_ID): cv.declare_id(MicroMutableOpResolverTemplate),
         }
     )
 )
