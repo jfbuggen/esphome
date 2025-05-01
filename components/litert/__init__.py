@@ -24,8 +24,7 @@ LiteRTComponent = litert_ns.class_("LiteRTComponent", cg.Component)
 
 tflite_ns = cg.global_ns.namespace("tflite")
 MicroOpResolver = tflite_ns.class_('MicroOpResolver')
-#MicroMutableOpResolverTemplate = tflite_ns.class_('MicroMutableOpResolver', MicroOpResolver)
-MicroMutableOpResolver = tflite_ns.class_('MicroMutableOpResolver')
+MicroMutableOpResolver = tflite_ns.class_('MicroMutableOpResolver', MicroOpResolver)
 CONF_OP_COUNT = 4
 CONF_OP_ID = "tflite_op_res"
 
