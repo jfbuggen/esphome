@@ -17,7 +17,7 @@ class LiteRTComponent : public Component {
     this->model_data_ = model_data;
     this->model_data_length_ = len;
   }
-#  void set_op_resolver (tflite::MicroOpResolver& op_resolver) { this->op_resolver_ = op_resolver; }
+//  void set_op_resolver (tflite::MicroOpResolver& op_resolver) { this->op_resolver_ = op_resolver; }
 
  protected:
   uint8_t const *model_data_{nullptr};
