@@ -24,7 +24,8 @@ LiteRTComponent = litert_ns.class_("LiteRTComponent", cg.Component)
 
 tflite_ns = cg.global_ns.namespace("tflite")
 #MicroMutableOpResolverTemplate = tflite_ns.template(cg.uint32).class_('MicroMutableOpResolver')
-MicroMutableOpResolverTemplate = tflite_ns.class_('MicroMutableOpResolver')
+MicroOpResolver = tflite_ns.class('MicroOpResolver')
+MicroMutableOpResolverTemplate = tflite_ns.class_('MicroMutableOpResolver', MicroOpResolver)
 CONF_OP_COUNT = 4
 CONF_OP_ID = "tflite_op_res"
 
@@ -102,7 +103,7 @@ CONFIG_SCHEMA = (
             cv.GenerateID(): cv.declare_id(LiteRTComponent),
             cv.Required(CONF_FILE): cv.Any(validate_file_shorthand, TYPED_FILE_SCHEMA),
             cv.GenerateID(CONF_RAW_DATA_ID): cv.declare_id(cg.uint8),
-            cv.GenerateID(CONF_OP_ID): cv.declare_id(MicroMutableOpResolverTemplate),
+            cv.GenerateID(CONF_OP_ID): cv.declare_id(MicroOpResolver),
         }
     )
 )
