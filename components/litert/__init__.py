@@ -26,7 +26,7 @@ tflite_ns = cg.global_ns.namespace("tflite")
 #MicroMutableOpResolverTemplate = tflite_ns.template(cg.uint32).class_('MicroMutableOpResolver')
 MicroOpResolver = tflite_ns.class_('MicroOpResolver')
 #MicroMutableOpResolverTemplate = tflite_ns.class_('MicroMutableOpResolver', MicroOpResolver)
-MicroMutableOpResolverTemplate = tflite_ns.class_('MicroMutableOpResolver')
+MicroMutableOpResolverTemplate = tflite_ns.template(cg.uint32).class_('MicroMutableOpResolver')
 CONF_OP_COUNT = 4
 CONF_OP_ID = "tflite_op_res"
 
