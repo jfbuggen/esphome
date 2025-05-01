@@ -134,7 +134,7 @@ async def to_code(config):
     opcount = CONF_OP_COUNT
     resolver = MicroMutableOpResolverTemplate.template(cg.uint32(opcount))
     rhs = resolver.new()
-    res = cg.new_Pvariable(config[CONF_OP_ID], res, rhs)
+    res = cg.new_Pvariable(config[CONF_OP_ID], rhs)
     #cg.add(var.set_op_resolver(res))
 
     var = cg.new_Pvariable(config[CONF_ID], res)
