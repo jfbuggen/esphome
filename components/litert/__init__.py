@@ -136,7 +136,7 @@ async def to_code(config):
 #    decl = VariableDeclarationExpression(config[CONF_OP_ID],"",resolver)
 #    res = resolver.new()
 #    rhs = cg.Pvariable(config[CONF_OP_ID], res, MicroOpResolver)
-    cg.add(cg.RawExpression(f"OPENTHERM_HAS_SETTING_{decl}"))
+    #cg.add(cg.RawExpression(f"OPENTHERM_HAS_SETTING_{decl}"))
     #cg.add(var.set_op_resolver(res))
 
     var = cg.new_Pvariable(config[CONF_ID], resolver)
