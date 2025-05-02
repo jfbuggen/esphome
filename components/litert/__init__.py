@@ -133,13 +133,13 @@ async def to_code(config):
 
     opcount = CONF_OP_COUNT
     resolver = MicroMutableOpResolver.template(opcount)
-    decl = VariableDeclarationExpression(config[CONF_OP_ID],"",resolver)
+#    decl = VariableDeclarationExpression(config[CONF_OP_ID],"",resolver)
 #    res = resolver.new()
 #    rhs = cg.Pvariable(config[CONF_OP_ID], res, MicroOpResolver)
     cg.add(cg.RawExpression(f"OPENTHERM_HAS_SETTING_{decl}"))
     #cg.add(var.set_op_resolver(res))
 
-    var = cg.new_Pvariable(config[CONF_ID], config[CONF_OP_ID])
+    var = cg.new_Pvariable(config[CONF_ID], resolver)
     
     # Retrieve model file
     path = Path(config[CONF_FILE])
