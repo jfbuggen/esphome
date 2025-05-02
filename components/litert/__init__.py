@@ -136,7 +136,7 @@ async def to_code(config):
     resolver = MicroMutableOpResolver.template(opcount)
     decl = VariableDeclarationExpression(config[CONF_OP_ID],"",resolver)
     add(decl)
-    res = MockObj(resolver, ".")
+    res = MockObj(config[CONF_OP_ID], ".")
     CORE.register_variable(resolver, res)
 
 #    res = resolver.new()
