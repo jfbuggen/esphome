@@ -159,7 +159,7 @@ async def to_code(config):
 
     await cg.register_component(var, config)
 
-           
+    cg.add_build_flag("-I/tensorflow/lite/micro//micro_mutable_op_resolver.h")
     # Add Expressif's Tensorflow Lite for ESP32 library
     cg.add_library(
         name="TensorFlow",
