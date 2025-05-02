@@ -7,6 +7,7 @@ import logging
 from esphome import core, external_files
 from esphome.cpp_generator import VariableDeclarationExpression, add
 from esphome.components import sensor
+from esphome.core import CORE
 from pathlib import Path
 
 from esphome.const import (
@@ -133,9 +134,13 @@ async def to_code(config):
 
     opcount = CONF_OP_COUNT
     resolver = MicroMutableOpResolver.template(opcount)
-#    decl = VariableDeclarationExpression(config[CONF_OP_ID],"",resolver)
-    res = resolver.new()
-    rhs = cg.Pvariable(config[CONF_OP_ID], res, MicroOpResolver)
+    decl = VariableDeclarationExpression(config[CONF_OP_ID],"",resolver)
+    add(decl)
+    res = MockObj(resolver, ".")
+    CORE.register_variable(resolver, res)
+
+#    res = resolver.new()
+#    rhs = cg.Pvariable(config[CONF_OP_ID], res, MicroOpResolver)
     #cg.add(cg.RawExpression(f"OPENTHERM_HAS_SETTING_{decl}"))
     #cg.add(var.set_op_resolver(res))
 
