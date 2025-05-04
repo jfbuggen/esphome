@@ -130,14 +130,31 @@ async def register_model(config):
 #    prog_arr = cg.progmem_array(config[CONF_RAW_DATA_ID], rhs)
 #    cg.add_global(var.add_model(prog_arr, len(rhs)))
 
+def litert_variable(type, name):
+    """
+    Create but do not initialise a variable
+    :param type: Type of the variable target
+    :param name: name of the variable, or an ID
+    :return:  A MockObj of the variable
+    """
+    if isinstance(name, str):
+        name = ID(name, True, type)
+    decl = VariableDeclarationExpression(type, "", name)
+    CORE.add_global(decl)
+    var = MockObj(name, ".")
+    CORE.register_variable(name, var)
+    return var 
+
 async def to_code(config):
 
     opcount = CONF_OP_COUNT
-    resolver = MicroMutableOpResolver.template(opcount)
-    decl = VariableDeclarationExpression(config[CONF_OP_ID],"",resolver)
-    add(decl)
-    res = MockObj(config[CONF_OP_ID], ".")
-    CORE.register_variable(resolver, res)
+    litert_variable(MicroMutableOpResolver.template(opcount), config[CONF_OP_ID]);
+  
+#    resolver = MicroMutableOpResolver.template(opcount)
+#    decl = VariableDeclarationExpression(config[CONF_OP_ID],"",resolver)
+#    add(decl)
+#    res = MockObj(config[CONF_OP_ID], ".")
+#    CORE.register_variable(resolver, res)
 
 #    res = resolver.new()
 #    rhs = cg.Pvariable(config[CONF_OP_ID], res, MicroOpResolver)
