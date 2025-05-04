@@ -149,7 +149,7 @@ async def to_code(config):
 
     opcount = CONF_OP_COUNT
     res = litert_variable(MicroMutableOpResolver.template(opcount), config[CONF_OP_ID]);
-    cg.add(cg.RawExpression(f"#include "tensorflow/lite/micro/micro_mutable_op_resolver.h"))
+    cg.add(cg.RawExpression(f'#include "tensorflow/lite/micro/micro_mutable_op_resolver.h"'))
     
 #    resolver = MicroMutableOpResolver.template(opcount)
 #    decl = VariableDeclarationExpression(config[CONF_OP_ID],"",resolver)
