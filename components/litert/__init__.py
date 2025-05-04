@@ -161,7 +161,7 @@ async def to_code(config):
     #cg.add(cg.RawExpression(f"OPENTHERM_HAS_SETTING_{decl}"))
     #cg.add(var.set_op_resolver(res))
 
-    var = cg.new_Pvariable(config[CONF_ID], resolver)
+    var = cg.new_Pvariable(config[CONF_ID], res)
     
     # Retrieve model file
     path = Path(config[CONF_FILE])
