@@ -147,8 +147,7 @@ def litert_variable(type, name):
 
 async def to_code(config):
 
-    cg.add_build_flag("-Itensorflow/lite/micro/micro_mutable_op_resolver.h")
-#    cg.add_global(cg.RawExpression(f'#include "tensorflow/lite/micro/micro_mutable_op_resolver.h"'))
+    cg.add_global(cg.RawStatement('#include "tensorflow/lite/micro/micro_mutable_op_resolver.h"'))
     opcount = CONF_OP_COUNT
     res = litert_variable(MicroMutableOpResolver.template(opcount), config[CONF_OP_ID]);
     
