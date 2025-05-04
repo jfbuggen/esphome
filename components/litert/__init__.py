@@ -148,7 +148,7 @@ def litert_variable(type, name):
 async def to_code(config):
 
     opcount = CONF_OP_COUNT
-    litert_variable(MicroMutableOpResolver.template(opcount), config[CONF_OP_ID]);
+    res = litert_variable(MicroMutableOpResolver.template(opcount), config[CONF_OP_ID]);
   
 #    resolver = MicroMutableOpResolver.template(opcount)
 #    decl = VariableDeclarationExpression(config[CONF_OP_ID],"",resolver)
