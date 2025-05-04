@@ -149,7 +149,8 @@ async def to_code(config):
 
     opcount = CONF_OP_COUNT
     res = litert_variable(MicroMutableOpResolver.template(opcount), config[CONF_OP_ID]);
-  
+    cg.add(cg.RawExpression(f"#include "tensorflow/lite/micro/micro_mutable_op_resolver.h"))
+    
 #    resolver = MicroMutableOpResolver.template(opcount)
 #    decl = VariableDeclarationExpression(config[CONF_OP_ID],"",resolver)
 #    add(decl)
@@ -158,7 +159,6 @@ async def to_code(config):
 
 #    res = resolver.new()
 #    rhs = cg.Pvariable(config[CONF_OP_ID], res, MicroOpResolver)
-    #cg.add(cg.RawExpression(f"OPENTHERM_HAS_SETTING_{decl}"))
     #cg.add(var.set_op_resolver(res))
 
     var = cg.new_Pvariable(config[CONF_ID], res)
