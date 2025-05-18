@@ -189,4 +189,4 @@ async def to_code(config):
         version=None,
     )
     # Set deeper ldf mode to ensure the compiler finds the right header files accross component code and library code
-#    cg.add_platformio_option("lib_ldf_mode", "chain+")
+    cg.add_platformio_option("lib_ldf_mode", "chain+")
